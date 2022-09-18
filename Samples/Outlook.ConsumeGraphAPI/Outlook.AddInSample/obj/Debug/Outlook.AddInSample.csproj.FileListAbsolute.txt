@@ -1,0 +1,2 @@
+C:\Users\dimitrijoosten\Source\Repos\Office-Add-in-samples\Samples\Outlook.ConsumeGraphAPI\Outlook.AddInSample\obj\Debug\Outlook.AddInSample.csproj.AssemblyReference.cache
+C:\Users\dimitrijoosten\Source\Repos\Office-Add-in-samples\Samples\Outlook.ConsumeGraphAPI\Outlook.AddInSample\obj\Debug\Outlook.AddInSample.csproj.CoreCompileInputs.cache

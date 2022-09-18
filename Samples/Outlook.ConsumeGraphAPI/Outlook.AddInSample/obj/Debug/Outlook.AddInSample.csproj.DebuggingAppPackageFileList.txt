@@ -1,0 +1,2 @@
+bin\Debug\OfficeAppManifests\Outlook.AddInSampleManifest.xml
+C:\Users\dimitrijoosten\Source\Repos\Office-Add-in-samples\Samples\Outlook.ConsumeGraphAPI\Outlook.AddInSample\bin\Debug\Outlook.AddInSample.debugapp
