@@ -52,7 +52,7 @@ namespace AttachmentDemoWeb.Helpers
                         sw.Write(jsonItem);
                         sw.Flush();
                         fileStream.Position = 0;
-                        bool success = await SaveFileToOneDrive(graphClient, itemAttachment.Name + ".json", fileStream);
+                        bool success = await SaveFileToSharePoint(graphClient, itemAttachment.Name + ".json", fileStream);
                         if (!success)
                         {
                             return HttpErrorHelper.SendErrorToClient(HttpStatusCode.BadRequest, new Exception(string.Format("Could not save {0} to OneDrive", itemAttachment.Name)), null);
@@ -66,7 +66,7 @@ namespace AttachmentDemoWeb.Helpers
                         if (fileAttachment.Size < (4 * 1024 * 1024))
                         {
                             MemoryStream fileStream = new MemoryStream(fileAttachment.ContentBytes);
-                            bool success = await SaveFileToOneDrive(graphClient, fileAttachment.Name, fileStream);
+                            bool success = await SaveFileToSharePoint(graphClient, fileAttachment.Name, fileStream);
                             if (!success)
                             {
                                 return HttpErrorHelper.SendErrorToClient(HttpStatusCode.BadRequest, new Exception(string.Format("Could not save {0} to OneDrive", fileAttachment.Name)), null);
@@ -101,6 +101,30 @@ namespace AttachmentDemoWeb.Helpers
                 // This method only supports files 4MB or less
                 DriveItem newItem = await client.Me.Drive.Root.ItemWithPath(relativeFilePath)
                     .Content.Request().PutAsync<DriveItem>(fileContent);
+            }
+            catch (ServiceException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        internal static async Task<bool> SaveFileToSharePoint(GraphServiceClient client, string fileName, Stream fileContent)
+        {
+            string relativeFilePath = "Outlook Attachments/" + MakeFileNameValid(fileName);
+
+            try
+            {
+                // DJO: Write file to SharePoint site "Dimi's team"
+
+                var uploadSession = await client
+            .Sites["3de32372-77bd-404a-889d-f3aee5852f5b"]
+            .Drive
+            .Root
+            .ItemWithPath(relativeFilePath)
+                    .Content.Request().PutAsync<DriveItem>(fileContent);
+
             }
             catch (ServiceException)
             {
